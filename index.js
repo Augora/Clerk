@@ -4,7 +4,7 @@ var _ = require("lodash");
 
 var apiDescriptor = require("./config");
 var previousResult = require("./finalResult.json");
-var { jsonToMarkdown, typeAnObject } = require("./utils");
+var { jsonToMarkdown, typeAnObject, areApiResultsTheSame } = require("./utils");
 
 let launchProcess = async () => {
   console.time("General Processing");
@@ -37,11 +37,16 @@ let launchProcess = async () => {
     });
   });
   const finalResult = await Promise.all(newApiDescriptor);
-  const finalMarkdown = finalResult
-    .map(fr => fr.markdown + fr.endpoints.map(e => e.markdown).join(""))
-    .join("");
-  fs.writeFileSync("finalResult.json", JSON.stringify(finalResult));
-  fs.writeFileSync("README.md", finalMarkdown);
+  const previousResult = JSON.parse(
+    fs.readFileSync("finalResult.json", "utf8")
+  );
+  if (!areApiResultsTheSame(previousResult, finalResult)) {
+    const finalMarkdown = finalResult
+      .map(fr => fr.markdown + fr.endpoints.map(e => e.markdown).join(""))
+      .join("");
+    fs.writeFileSync("finalResult.json", JSON.stringify(finalResult));
+    fs.writeFileSync("README.md", finalMarkdown);
+  }
   console.timeEnd("General Processing");
 };
 

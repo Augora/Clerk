@@ -74,24 +74,85 @@ function jsonToMarkdown(jsonData, indent = "") {
 }
 
 function typeAnObject(object) {
-  return Object
-    .keys(object)
+  return Object.keys(object)
     .map(key => {
-      if(object[key] instanceof Array) {
+      if (object[key] instanceof Array) {
         var empoweredData = object[key].reduce((prev, curr) => {
           return _.assignWith({}, prev, curr);
         }, {});
-        return {[key]: typeAnObject(empoweredData)};
-      } else if(object[key] instanceof Object) {
-        return {[key]: typeAnObject(object[key])};
+        return { [key]: typeAnObject(empoweredData) };
+      } else if (object[key] instanceof Object) {
+        return { [key]: typeAnObject(object[key]) };
       } else {
-        return { [key]: typeof object[key] }
+        return { [key]: typeof object[key] };
       }
     })
     .reduce((curr, next) => _.assign({}, curr, next), {});
 }
 
+function areTypesTheSame(currType, oldType) {
+  if (_.isUndefined(currType) || _.isUndefined(oldType)) {
+    return false;
+  }
+
+  const currKeys = Object.keys(currType);
+  const oldKeys = Object.keys(oldType);
+
+  const areSameSize = currKeys.length === oldKeys.length;
+  const includeSameKeys = currKeys.reduce((prev, curr) => {
+    return prev && oldKeys.includes(curr);
+  }, areSameSize);
+  const includeSameTypes = currKeys.reduce((prev, curr) => {
+    if (currType[curr] instanceof Object) {
+      return prev && areTypesTheSame(currType[curr], oldType[curr]);
+    } else {
+      return prev && currType[curr] === oldType[curr];
+    }
+  }, includeSameKeys);
+  return areSameSize && includeSameKeys && includeSameTypes;
+}
+
+function areApiResultsTheSame(currAPIResult, oldAPIResult) {
+  const areSameSize = currAPIResult.length === oldAPIResult.length;
+
+  const currAPINames = currAPIResult.map(i => i.name);
+  const oldAPINames = oldAPIResult.map(i => i.name);
+
+  const includeSameNames = currAPINames.reduce((prev, curr) => {
+    return prev && oldAPINames.includes(curr);
+  }, areSameSize);
+
+  const currEndpoints = _.flatMap(currAPIResult, i => i.endpoints);
+  const oldEndpoints = _.flatMap(oldAPIResult, i => i.endpoints);
+
+  return includeSameNames && areEndpointsTheSame(currEndpoints, oldEndpoints);
+}
+
+function areEndpointsTheSame(currEndpoints, oldEndpoints) {
+  const areSameSize = currEndpoints.length === oldEndpoints.length;
+
+  const currEndpointsTitles = currEndpoints.map(i => i.title);
+  const oldEndpointsTitles = oldEndpoints.map(i => i.title);
+
+  const includeSameTitles = currEndpointsTitles.reduce((prev, curr) => {
+    return prev && oldEndpointsTitles.includes(curr);
+  }, areSameSize);
+
+  const currTypedData = currEndpoints.map(i => i.typedData);
+  const oldTypedData = oldEndpoints.map(i => i.typedData);
+
+  const includeSameTypedData = currTypedData.reduce((prev, curr) => {
+    const foundAnItem =
+      oldTypedData.find(e => areTypesTheSame(curr, e)) !== undefined;
+    return prev && foundAnItem;
+  }, includeSameTitles);
+
+  return includeSameTypedData;
+}
+
 module.exports = {
   jsonToMarkdown,
-  typeAnObject
+  typeAnObject,
+  areTypesTheSame,
+  areApiResultsTheSame
 };
