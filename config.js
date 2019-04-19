@@ -1,6 +1,6 @@
 module.exports = [
   {
-    name: "nosdeputes.fr",
+    name: "NosDeputes.fr",
     endpoints: [
       {
         title: "Liste des parlementaires",
