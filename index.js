@@ -16,9 +16,9 @@ let launchProcess = async () => {
         .then(response => response.data)
         .then(data => ({
           // rawData: data,
-          markdown: `## ${endpoint.title} (${endpoint.url})\n${jsonToMarkdown(
+          markdown: `## ${endpoint.title} (<${endpoint.url}>)\n\n${jsonToMarkdown(
             data
-          )}`,
+          )}\n`,
           typedData: typeAnObject(data)
         }))
         .then(d => {
@@ -32,14 +32,11 @@ let launchProcess = async () => {
     });
     const finalEndpoints = await Promise.all(newEndpoints);
     return _.assign({}, api, {
-      markdown: `# ${api.name}\n`,
+      markdown: `# ${api.name}\n\n`,
       endpoints: finalEndpoints
     });
   });
   const finalResult = await Promise.all(newApiDescriptor);
-  const previousResult = JSON.parse(
-    fs.readFileSync("finalResult.json", "utf8")
-  );
   if (!areApiResultsTheSame(previousResult, finalResult)) {
     const finalMarkdown = finalResult
       .map(fr => fr.markdown + fr.endpoints.map(e => e.markdown).join(""))
