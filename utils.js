@@ -10,12 +10,15 @@ function timeThisFunction(f) {
 }
 
 function isURL(str) {
-  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  var pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); // fragment locator
   return !!pattern.test(str);
 }
 
@@ -76,7 +79,9 @@ function jsonToMarkdown(jsonData, indent = "") {
         )}`;
       } else {
         const clearedValue = clearValue(jsonData[k]);
-        const markdownComplientValue = isURL(clearedValue) ? `<${clearedValue}>` : clearedValue;
+        const markdownComplientValue = isURL(clearedValue)
+          ? `<${clearedValue}>`
+          : clearedValue;
         return `${indent}* ${enhanceKey(k)} (e.g. ${markdownComplientValue})\n`;
       }
     })
@@ -164,5 +169,10 @@ module.exports = {
   jsonToMarkdown,
   typeAnObject,
   areTypesTheSame,
-  areApiResultsTheSame
+  areApiResultsTheSame,
+  isURL,
+  customizer,
+  camelize,
+  clearValue,
+  enhanceKey
 };
