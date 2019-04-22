@@ -1,5 +1,7 @@
 # NosDeputes.fr
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/LaBetePolitique/Clerk.svg)](https://greenkeeper.io/)
+
 ## Liste des parlementaires (<https://www.nosdeputes.fr/deputes/enmandat/json>)
 
 * Deputes (577 items)
