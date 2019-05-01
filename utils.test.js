@@ -8,38 +8,38 @@ const {
 } = require("./utils");
 
 it("[isURL] should return true", () => {
-  expect(isURL('lel.com')).toBe(true);
-  expect(isURL('lel.com/a/b/c')).toBe(true);
-  expect(isURL('http://lel.com')).toBe(true);
-  expect(isURL('http://lel.com/a/b/C')).toBe(true);
-  expect(isURL('https://lel.com')).toBe(true);
-  expect(isURL('https://lel.com/a')).toBe(true);
-  expect(isURL('https://lel.com/a/b/C')).toBe(true);
-  expect(isURL('https://lel.com/a/b/C?lel=a')).toBe(true);
+  expect(isURL("lel.com")).toBe(true);
+  expect(isURL("lel.com/a/b/c")).toBe(true);
+  expect(isURL("http://lel.com")).toBe(true);
+  expect(isURL("http://lel.com/a/b/C")).toBe(true);
+  expect(isURL("https://lel.com")).toBe(true);
+  expect(isURL("https://lel.com/a")).toBe(true);
+  expect(isURL("https://lel.com/a/b/C")).toBe(true);
+  expect(isURL("https://lel.com/a/b/C?lel=a")).toBe(true);
 });
 
 it("[isURL] should return false", () => {
-  expect(isURL('lel@mdr.fr')).toBe(false);
-  expect(isURL('abc')).toBe(false);
-  expect(isURL('This is rocket league.')).toBe(false);
+  expect(isURL("lel@mdr.fr")).toBe(false);
+  expect(isURL("abc")).toBe(false);
+  expect(isURL("This is rocket league.")).toBe(false);
 });
 
 it("[camelize] should return camelized value", () => {
-  expect(camelize('abc')).toBe('Abc');
-  expect(camelize('kevbac')).toBe('Kevbac');
-  expect(camelize('Kevbac')).toBe('Kevbac');
-  expect(camelize('this is rocket league.')).toBe('This is rocket league.');
+  expect(camelize("abc")).toBe("Abc");
+  expect(camelize("kevbac")).toBe("Kevbac");
+  expect(camelize("Kevbac")).toBe("Kevbac");
+  expect(camelize("this is rocket league.")).toBe("This is rocket league.");
 });
 
 it("[clearValue] should return a cleared value", () => {
-  expect(clearValue('abc')).toBe('abc');
-  expect(clearValue('<p>abc')).toBe('abc');
-  expect(clearValue('<p>abc</p>')).toBe('abc');
+  expect(clearValue("abc")).toBe("abc");
+  expect(clearValue("<p>abc")).toBe("abc");
+  expect(clearValue("<p>abc</p>")).toBe("abc");
 });
 
 it("[enhanceKey] should return a human readable key", () => {
-  expect(enhanceKey('this_is_rocket_league')).toBe('This is rocket league');
-  expect(enhanceKey('nom_de_famille')).toBe('Nom de famille');
+  expect(enhanceKey("this_is_rocket_league")).toBe("This is rocket league");
+  expect(enhanceKey("nom_de_famille")).toBe("Nom de famille");
 });
 
 it("[areTypesTheSame] Should return true", () => {

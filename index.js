@@ -16,9 +16,9 @@ let launchProcess = async () => {
         .then(response => response.data)
         .then(data => ({
           // rawData: data,
-          markdown: `## ${endpoint.title} (<${endpoint.url}>)\n\n${jsonToMarkdown(
-            data
-          )}\n`,
+          markdown: `## ${endpoint.title} (<${
+            endpoint.url
+          }>)\n\n${jsonToMarkdown(data)}\n`,
           typedData: typeAnObject(data)
         }))
         .then(d => {
