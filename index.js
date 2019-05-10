@@ -41,7 +41,7 @@ let launchProcess = async () => {
     const finalMarkdown = finalResult
       .map(fr => fr.markdown + fr.endpoints.map(e => e.markdown).join(""))
       .join("");
-    fs.writeFileSync("finalResult.json", JSON.stringify(finalResult));
+    fs.writeFileSync("finalResult.json", JSON.stringify(finalResult, null, 2));
     fs.writeFileSync("README.md", finalMarkdown);
   }
   console.timeEnd("General Processing");
