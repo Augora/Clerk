@@ -1,6 +1,6 @@
 var fs = require("fs");
 var axios = require("axios");
-var _ = require("lodash");
+var assign = require("lodash/assign");
 
 var apiDescriptor = require("./config");
 var previousResult = require("./finalResult.json");
@@ -26,12 +26,12 @@ let launchProcess = async () => {
           return d;
         })
         .catch(function(error) {
-          console.log("Error:", error);
+          console.log("Error", endpoint.url, error.message);
         });
-      return _.assign({}, endpoint, processedResult);
+      return assign({}, endpoint, processedResult);
     });
     const finalEndpoints = await Promise.all(newEndpoints);
-    return _.assign({}, api, {
+    return assign({}, api, {
       markdown: `# ${api.name}\n\n`,
       endpoints: finalEndpoints
     });

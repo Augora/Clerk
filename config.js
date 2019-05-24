@@ -16,7 +16,7 @@ module.exports = [
       },
       {
         title: "Liste de tous les débats d'une chambre sur un texte",
-        url: "https://www.nosdeputes.fr/14/seances/1005/json"
+        url: "https://www.nosdeputes.fr/15/seances/1032/json"
       },
       {
         title: "Liste des groupes d'études et d'amitié",
@@ -40,11 +40,12 @@ module.exports = [
       },
       {
         title: "Détails des amendements déposés sur un texte",
-        url: "https://www.nosdeputes.fr/14/amendements/1005/json"
+        url: "https://www.nosdeputes.fr/15/amendements/315/json"
       },
       {
         title: "Détails d'un groupe d'étude et d'amité",
-        url: "https://www.nosdeputes.fr/organisme/groupe-d-amitie-france-afghanistan/json"
+        url:
+          "https://www.nosdeputes.fr/organisme/groupe-d-amitie-france-afghanistan/json"
       },
       {
         title: "Détails d'un organe extra-parlementaire",
@@ -60,15 +61,16 @@ module.exports = [
       },
       {
         title: "Détail d'un organe parlementaire",
-        url: "https://www.nosdeputes.fr/organisme/bureau-de-l-assemblee-nationale/json"
+        url:
+          "https://www.nosdeputes.fr/organisme/bureau-de-l-assemblee-nationale/json"
       },
       {
         title: "Détails d'un dossier législatif",
-        url: "https://www.nosdeputes.fr/15/dossier/3913/json"
+        url: "https://www.nosdeputes.fr/15/dossier/2072/json"
       },
       {
         title: "Détails de toutes les interventions d'une séance",
-        url: "https://www.nosdeputes.fr/14/seance/1461/json"
+        url: "https://www.nosdeputes.fr/15/seance/1461/json"
       }
     ]
   }

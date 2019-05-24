@@ -1,4 +1,15 @@
-var _ = require("lodash");
+var split = require("lodash/split");
+var assignWith = require("lodash/assignWith");
+var isArray = require("lodash/isArray");
+var isObject = require("lodash/isObject");
+var isNull = require("lodash/isNull");
+var isString = require("lodash/isString");
+var isEmpty = require("lodash/isEmpty");
+var isUndefined = require("lodash/isUndefined");
+var toUpper = require("lodash/toUpper");
+var join = require("lodash/join");
+var assign = require("lodash/assign");
+var flatMap = require("lodash/flatMap");
 
 function timeThisFunction(f) {
   return (...args) => {
@@ -23,26 +34,26 @@ function isURL(str) {
 }
 
 function customizer(objValue, srcValue) {
-  if (_.isArray(objValue)) {
+  if (isArray(objValue)) {
     return objValue.concat(srcValue);
   }
-  if (_.isObject(objValue)) {
-    return _.assignWith({}, objValue, srcValue, customizer);
+  if (isObject(objValue)) {
+    return assignWith({}, objValue, srcValue, customizer);
   }
-  return _.isUndefined(objValue) ||
-    _.isNull(objValue) ||
-    (_.isString(objValue) && _.isEmpty(objValue))
+  return isUndefined(objValue) ||
+    isNull(objValue) ||
+    (isString(objValue) && isEmpty(objValue))
     ? srcValue
     : objValue;
 }
 
 function camelize(str) {
-  return _.toUpper(str[0]) + str.substring(1);
+  return toUpper(str[0]) + str.substring(1);
 }
 
 function clearValue(value) {
   if (typeof value === "string") {
-    return _.split(value, "<p>")
+    return split(value, "<p>")
       .join("")
       .split("</p>")
       .join("");
@@ -52,14 +63,14 @@ function clearValue(value) {
 }
 
 function enhanceKey(key) {
-  var camelizedSplittedKey = _.split(key, "_").map((v, i) => {
+  var camelizedSplittedKey = split(key, "_").map((v, i) => {
     if (i === 0) {
       return camelize(v);
     } else {
       return v;
     }
   });
-  return _.join(camelizedSplittedKey, " ");
+  return join(camelizedSplittedKey, " ");
 }
 
 function jsonToMarkdown(jsonData, indent = "") {
@@ -67,7 +78,7 @@ function jsonToMarkdown(jsonData, indent = "") {
     .map(k => {
       if (jsonData[k] instanceof Array) {
         var empoweredData = jsonData[k].reduce((prev, curr) => {
-          return _.assignWith({}, prev, curr, customizer);
+          return assignWith({}, prev, curr, customizer);
         }, {});
         return `${indent}* ${enhanceKey(k)} (${
           jsonData[k].length
@@ -93,7 +104,7 @@ function typeAnObject(object) {
     .map(key => {
       if (object[key] instanceof Array) {
         var empoweredData = object[key].reduce((prev, curr) => {
-          return _.assignWith({}, prev, curr);
+          return assignWith({}, prev, curr);
         }, {});
         return { [key]: typeAnObject(empoweredData) };
       } else if (object[key] instanceof Object) {
@@ -102,11 +113,11 @@ function typeAnObject(object) {
         return { [key]: typeof object[key] };
       }
     })
-    .reduce((curr, next) => _.assign({}, curr, next), {});
+    .reduce((curr, next) => assign({}, curr, next), {});
 }
 
 function areTypesTheSame(currType, oldType) {
-  if (_.isUndefined(currType) || _.isUndefined(oldType)) {
+  if (isUndefined(currType) || isUndefined(oldType)) {
     return false;
   }
 
@@ -137,8 +148,8 @@ function areApiResultsTheSame(currAPIResult, oldAPIResult) {
     return prev && oldAPINames.includes(curr);
   }, areSameSize);
 
-  const currEndpoints = _.flatMap(currAPIResult, i => i.endpoints);
-  const oldEndpoints = _.flatMap(oldAPIResult, i => i.endpoints);
+  const currEndpoints = flatMap(currAPIResult, i => i.endpoints);
+  const oldEndpoints = flatMap(oldAPIResult, i => i.endpoints);
 
   return includeSameNames && areEndpointsTheSame(currEndpoints, oldEndpoints);
 }
